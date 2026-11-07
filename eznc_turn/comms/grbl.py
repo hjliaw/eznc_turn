@@ -13,7 +13,7 @@ import time
 
 from PySide6.QtCore import QObject, QThread, Signal
 
-from grbl_turn.comms.transport import Transport
+from eznc_turn.comms.transport import Transport
 
 POLL_INTERVAL = 0.2
 _STATUS = re.compile(r"<([^|>]+)(.*)>")

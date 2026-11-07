@@ -1,4 +1,4 @@
-"""Regenerate the app icons in grbl_turn/resources/icons/ from logo.svg.
+"""Regenerate the app icons in eznc_turn/resources/icons/ from logo.svg.
 
 Needs inkscape and Pillow (dev-only: `.venv/bin/pip install pillow`);
 the .icns step needs macOS's iconutil and is skipped elsewhere.
@@ -15,8 +15,8 @@ from pathlib import Path
 from PIL import Image
 
 REPO = Path(__file__).resolve().parent.parent
-LOGO = REPO / "grbl_turn" / "resources" / "images" / "logo.svg"
-OUT = REPO / "grbl_turn" / "resources" / "icons"
+LOGO = REPO / "eznc_turn" / "resources" / "images" / "logo.svg"
+OUT = REPO / "eznc_turn" / "resources" / "icons"
 MARGIN = 0.07   # transparent border on each side of the square canvas
 
 ICO_SIZES = [16, 24, 32, 48, 64, 128, 256]
@@ -50,18 +50,18 @@ def main() -> None:
             return master.resize((px, px), Image.LANCZOS)
 
         for px in PNG_SIZES:
-            at(px).save(OUT / f"grbl_turn-{px}.png")
-        at(1024).save(OUT / "grbl_turn.ico",
+            at(px).save(OUT / f"eznc_turn-{px}.png")
+        at(1024).save(OUT / "eznc_turn.ico",
                       sizes=[(s, s) for s in ICO_SIZES])
 
         if shutil.which("iconutil"):
-            iconset = tmp / "grbl_turn.iconset"
+            iconset = tmp / "eznc_turn.iconset"
             iconset.mkdir()
             for name, px in ICONSET.items():
                 at(px).save(iconset / f"{name}.png")
             subprocess.run(
                 ["iconutil", "-c", "icns", str(iconset),
-                 "-o", str(OUT / "grbl_turn.icns")],
+                 "-o", str(OUT / "eznc_turn.icns")],
                 check=True)
         else:
             print("iconutil not found (not macOS) — skipped .icns")

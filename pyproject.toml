@@ -1,5 +1,5 @@
 [project]
-name = "grbl-turn"
+name = "eznc-turn"
 version = "0.1.0"
 description = "Conversational lathe GUI for ESP32 GRBL controllers"
 license = {file = "LICENSE"}
@@ -13,14 +13,14 @@ dependencies = [
 dev = ["pytest"]
 
 [project.scripts]
-grbl-turn = "grbl_turn.app:main"
+eznc-turn = "eznc_turn.app:main"
 
 [build-system]
 requires = ["setuptools>=64"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
-include = ["grbl_turn*"]
+include = ["eznc_turn*"]
 
 [tool.setuptools.package-data]
-"grbl_turn.resources" = ["images/*.svg", "icons/*"]
+"eznc_turn.resources" = ["images/*.svg", "icons/*"]

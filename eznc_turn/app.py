@@ -5,9 +5,9 @@ import sys
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication
 
-from grbl_turn import ICONS
-from grbl_turn.ui.main_window import MainWindow
-from grbl_turn.ui.theme import STYLESHEET
+from eznc_turn import ICONS
+from eznc_turn.ui.main_window import MainWindow
+from eznc_turn.ui.theme import STYLESHEET
 
 
 def main() -> None:
@@ -31,11 +31,11 @@ def main() -> None:
         # pythonw.exe and shows the Python icon in the taskbar.
         import ctypes
         ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(
-            "grbl_turn")
+            "eznc_turn")
 
     app = QApplication(sys.argv)
-    app.setApplicationName("grbl_turn")
-    app.setWindowIcon(QIcon(str(ICONS / "grbl_turn-256.png")))
+    app.setApplicationName("eznc_turn")
+    app.setWindowIcon(QIcon(str(ICONS / "eznc_turn-256.png")))
     app.setStyleSheet(STYLESHEET)
 
     win = MainWindow()

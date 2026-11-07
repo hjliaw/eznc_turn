@@ -2,11 +2,11 @@
 
 import pytest
 
-from grbl_turn.gcode import extents, origin, positions
-from grbl_turn.machine import MachineProfile
-from grbl_turn.ops import BY_KEY, REGISTRY
-from grbl_turn.ops.taper import MODE_TRIM
-from grbl_turn.units import Units
+from eznc_turn.gcode import extents, origin, positions
+from eznc_turn.machine import MachineProfile
+from eznc_turn.ops import BY_KEY, REGISTRY
+from eznc_turn.ops.taper import MODE_TRIM
+from eznc_turn.units import Units
 
 MACHINE = MachineProfile()
 

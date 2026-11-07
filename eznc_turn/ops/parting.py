@@ -8,10 +8,10 @@ all the way through just means entering at least the stock's real
 diameter -- sweeping a little past center is harmless once the part has
 already separated."""
 
-from grbl_turn.gcode import Program
-from grbl_turn.machine import MachineProfile
-from grbl_turn.ops.base import Field, Operation
-from grbl_turn.units import Units
+from eznc_turn.gcode import Program
+from eznc_turn.machine import MachineProfile
+from eznc_turn.ops.base import Field, Operation
+from eznc_turn.units import Units
 
 FIELDS = [
     Field("dia_reduction", "Diameter to part through", "dia", 0.750,

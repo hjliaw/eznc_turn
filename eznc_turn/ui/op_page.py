@@ -11,14 +11,14 @@ from PySide6.QtWidgets import (QButtonGroup, QCheckBox, QComboBox,
                                QMessageBox, QPushButton, QScrollArea,
                                QScroller, QSizePolicy, QVBoxLayout, QWidget)
 
-from grbl_turn import resource
-from grbl_turn.config import load_op_params, save_op_params
-from grbl_turn.machine import MachineProfile
-from grbl_turn.ops.base import DIMENSIONAL_KINDS, Field, Operation
-from grbl_turn.ops.threading_op import MODE_CUT, MODE_DEEPER
-from grbl_turn.ui.numpad import NumPad, TouchNumberEdit
-from grbl_turn.ui.widgets import NumericCombo, TouchCombo
-from grbl_turn.units import MM_PER_INCH, Units
+from eznc_turn import resource
+from eznc_turn.config import load_op_params, save_op_params
+from eznc_turn.machine import MachineProfile
+from eznc_turn.ops.base import DIMENSIONAL_KINDS, Field, Operation
+from eznc_turn.ops.threading_op import MODE_CUT, MODE_DEEPER
+from eznc_turn.ui.numpad import NumPad, TouchNumberEdit
+from eznc_turn.ui.widgets import NumericCombo, TouchCombo
+from eznc_turn.units import MM_PER_INCH, Units
 
 LABEL_COL_W = 166   # uniform columns across the parameter groups
 UNIT_COL_W = 44

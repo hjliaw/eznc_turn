@@ -1,6 +1,6 @@
 G76 Threading Cycle — Firmware Behaviour Notes
 ===============================================
-Written 2026-08-28, updated 2026-08-29 when grbl_turn moved to fully
+Written 2026-08-28, updated 2026-08-29 when eznc_turn moved to fully
 relative output, updated again 2026-08-30 when eznc's G76 ending position
 changed to match grblHAL/LinuxCNC (see ENDING POSITION OF THE CYCLE below).
 Sources read directly:
@@ -15,7 +15,7 @@ eznc implements the LinuxCNC dialect from scratch on top of its own G33
 spindle-sync primitive (parse-then-execute, modelled on mc_probe_cycle).
 It is NOT a port of grblHAL's cycle, and it differs in several places.
 
-CONTEXT: grbl_turn now emits G91 for every operation.  Nothing depends on
+CONTEXT: eznc_turn now emits G91 for every operation.  Nothing depends on
 work offsets; the operator touches off on the reference surface named in
 the program's ORIGIN comment and runs.  Every program returns to that
 start position — except the G76 threading path, for the reason below.
@@ -60,7 +60,7 @@ axis-word conversion runs BEFORE the motion-mode switch reads it:
   eznc      gcode.cpp:837  (same conversion, "Incremental mode" branch)
             gcode.cpp:1459 g76.z_end = gc_block.values.xyz[Z_AXIS]
 
-So under G91 the Z word is a DISTANCE, and grbl_turn emits it as one: the
+So under G91 the Z word is a DISTANCE, and eznc_turn emits it as one: the
 delta from wherever the lead-in rapid left the tool to the end of the
 thread (lead-in + thread length).  Verified on both code paths; both
 compute the same absolute z_final.  Pinned by
@@ -87,14 +87,14 @@ X word on the G76 line
             rescales the pitch (gcode.c:3446-3450).  Only X and Z accepted.
   eznc      HARD ERROR: axis_words & ~bit(Z_AXIS) -> STATUS_GCODE_AXIS_
             WORDS_EXIST (gcode.cpp:946).
-  -> grbl_turn emits no X on the G76 line, so it is fine on both.  It also
+  -> eznc_turn emits no X on the G76 line, so it is fine on both.  It also
      means grblHAL's taper-by-X feature is unavailable on eznc.
 
 Required words
   grblHAL   Z, plus at least one of I/J/K/P (gcode.c:3406), then range
             checks effectively require all of them anyway.
   eznc      I, J and K all required outright (gcode.cpp:939-942).
-  -> grbl_turn emits all of them.
+  -> eznc_turn emits all of them.
 
 Diameter mode
   grblHAL   HALVES I, J and K when diameter mode is active:
@@ -102,7 +102,7 @@ Diameter mode
                   thread.peak /= 2; thread.initial_depth /= 2;
                   thread.depth /= 2; }
   eznc      no diameter mode at all; nothing halves I/J/K.
-  -> OPEN BUG in grbl_turn: threading_op emits I/J/K as RADIAL values
+  -> OPEN BUG in eznc_turn: threading_op emits I/J/K as RADIAL values
      through plain fmt(), without machine.x_word().  On a machine with
      x_words_are_diameter=True the thread is cut to HALF the intended depth
      with half the intended clearance.  Not yet fixed.  eznc unaffected.
@@ -120,10 +120,10 @@ Validation limits (eznc is stricter)
   -> Note K == J: accepted by eznc, rejected by grblHAL.
 
 
-OPEN GAP IN grbl_turn
+OPEN GAP IN eznc_turn
 ----------------------
 The G76 path emits J and K straight from the form fields with no check
-that J <= K (grbl_turn/ops/threading_op.py, the machine.has_g76 branch).
+that J <= K (eznc_turn/ops/threading_op.py, the machine.has_g76 branch).
 thread_infeeds() validates 0 < first_depth <= total_depth, but that only
 runs on the G33 fallback path and in the preview's _expand_g76, which
 clamps with min(first, total) and so never trips.
@@ -155,7 +155,7 @@ This contradicts the code's own comment at gcode.cpp:1468 ("F on the G76
 line (this line only, not the modal feed)") and g76_plan.txt ("Omitted =
 rapids").
 
-Reachable from grbl_turn: the threading programs emit no F at all, but the
+Reachable from eznc_turn: the threading programs emit no F at all, but the
 turning / facing / boring / parting / taper programs all emit F3 etc., and
 grbl's modal feed survives between programs on one serial session.  Run a
 turning op, then a thread, and the cycle crawls.

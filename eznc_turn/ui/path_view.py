@@ -22,8 +22,8 @@ from PySide6.QtCore import QPointF, QRectF, Qt, QTimer, Signal
 from PySide6.QtGui import QColor, QPainter, QPen, QPolygonF
 from PySide6.QtWidgets import QWidget
 
-from grbl_turn.gcode import origin
-from grbl_turn.ops.passes import thread_infeeds
+from eznc_turn.gcode import origin
+from eznc_turn.ops.passes import thread_infeeds
 
 WORD_RE = re.compile(r"([A-Z])(-?\d*\.?\d+)")
 

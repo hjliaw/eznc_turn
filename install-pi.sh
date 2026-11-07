@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# grbl_turn installer for Raspberry Pi 4 + official 7" touchscreen.
+# eznc_turn installer for Raspberry Pi 4 + official 7" touchscreen.
 #
 # Run as your normal desktop user from the repo checkout on the Pi —
 # desktop autologin lands on this same account (via SUDO_USER):
@@ -15,7 +15,7 @@
 set -euo pipefail
 
 REPO_DIR="$(cd "$(dirname "$0")" && pwd)"
-VENV="$HOME/.local/share/grbl_turn/venv"
+VENV="$HOME/.local/share/eznc_turn/venv"
 PYTHON="$VENV/bin/python"
 
 if [ "$(id -u)" -eq 0 ]; then
@@ -37,7 +37,7 @@ fi
 # with a working venv only the app package needs replacing — skip apt,
 # venv creation, and dependency resolution (PySide6 stays as-is)
 UPDATE=0
-if "$PYTHON" -c "import grbl_turn" >/dev/null 2>&1; then
+if "$PYTHON" -c "import eznc_turn" >/dev/null 2>&1; then
     UPDATE=1
 fi
 
@@ -61,7 +61,7 @@ mkdir -p "$(dirname "$VENV")"
 python3 -m venv "$VENV"
 "$PYTHON" -m pip install --upgrade pip wheel
 
-echo "==> Installing grbl_turn (pulls PySide6 + pyserial)"
+echo "==> Installing eznc_turn (pulls PySide6 + pyserial)"
 if ! "$PYTHON" -m pip install "$REPO_DIR"; then
     # No usable PySide6 wheel (old OS image): fall back to the distro's
     # PySide6 (Qt 6.4 on Bookworm — sufficient) via system site packages.
@@ -80,7 +80,7 @@ echo "==> Smoke test (imports only)"
 "$PYTHON" - <<'EOF'
 from PySide6.QtSvgWidgets import QSvgWidget
 import serial
-import grbl_turn.app
+import eznc_turn.app
 print("imports OK")
 EOF
 
@@ -91,12 +91,12 @@ fi
 
 echo "==> Autostart entry"
 mkdir -p "$HOME/.config/autostart"
-cat > "$HOME/.config/autostart/grbl_turn.desktop" <<EOF
+cat > "$HOME/.config/autostart/eznc_turn.desktop" <<EOF
 [Desktop Entry]
 Type=Application
-Name=grbl_turn
+Name=eznc_turn
 Comment=Conversational lathe GUI
-Exec=$PYTHON -m grbl_turn
+Exec=$PYTHON -m eznc_turn
 X-GNOME-Autostart-enabled=true
 EOF
 
@@ -113,4 +113,4 @@ sudo raspi-config nonint do_blanking 1          # disable blanking
 echo
 echo "Done. Reboot to land in the app:  sudo reboot"
 echo "(dialout group membership also needs that reboot/relogin.)"
-echo "To run it by hand:  $PYTHON -m grbl_turn"
+echo "To run it by hand:  $PYTHON -m eznc_turn"

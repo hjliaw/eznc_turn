@@ -3,8 +3,8 @@
 import pytest
 from PySide6.QtCore import QSettings
 
-import grbl_turn.config as config
-from grbl_turn.units import Units, convert
+import eznc_turn.config as config
+from eznc_turn.units import Units, convert
 
 
 @pytest.fixture

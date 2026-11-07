@@ -2,11 +2,11 @@
 
 from PySide6.QtCore import QSettings
 
-from grbl_turn.units import MM_PER_INCH, Units
+from eznc_turn.units import MM_PER_INCH, Units
 
 
 def settings() -> QSettings:
-    return QSettings("grbl_turn", "grbl_turn")
+    return QSettings("eznc_turn", "eznc_turn")
 
 
 def save_op_params(op_key: str, values: dict) -> None:
@@ -31,8 +31,8 @@ def convert_saved_params(old: Units, new: Units) -> None:
     as TPI/in per rev in inch mode or mm per rev in mm mode."""
     if old is new:
         return
-    from grbl_turn.ops import REGISTRY
-    from grbl_turn.ops.base import DIMENSIONAL_KINDS
+    from eznc_turn.ops import REGISTRY
+    from eznc_turn.ops.base import DIMENSIONAL_KINDS
     factor = MM_PER_INCH if new is Units.MM else 1.0 / MM_PER_INCH
     for op in REGISTRY:
         saved = load_op_params(op.key)

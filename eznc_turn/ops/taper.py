@@ -10,11 +10,11 @@ taper itself when trimming -- and the face change is measured from there."""
 
 import math
 
-from grbl_turn.gcode import Program
-from grbl_turn.machine import MachineProfile
-from grbl_turn.ops.base import Field, Operation
-from grbl_turn.ops.passes import turning_passes
-from grbl_turn.units import Units
+from eznc_turn.gcode import Program
+from eznc_turn.machine import MachineProfile
+from eznc_turn.ops.base import Field, Operation
+from eznc_turn.ops.passes import turning_passes
+from eznc_turn.units import Units
 
 # half angles (deg per side) from the standard taper-per-foot values
 MORSE_ANGLES = {"MT0": 1.4908, "MT1": 1.4287, "MT2": 1.4307, "MT3": 1.4377}

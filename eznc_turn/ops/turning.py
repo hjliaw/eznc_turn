@@ -5,11 +5,11 @@ at the face (whatever it actually measures), and the cut is specified as how
 much diameter to remove from there — the stock's real diameter never has to
 be known or typed in."""
 
-from grbl_turn.gcode import Program
-from grbl_turn.machine import MachineProfile
-from grbl_turn.ops.base import Field, Operation
-from grbl_turn.ops.passes import turning_passes
-from grbl_turn.units import Units
+from eznc_turn.gcode import Program
+from eznc_turn.machine import MachineProfile
+from eznc_turn.ops.base import Field, Operation
+from eznc_turn.ops.passes import turning_passes
+from eznc_turn.units import Units
 
 FIELDS = [
     Field("length", "Length", "len", 0.750, group="Z (bed/leadscrew)",

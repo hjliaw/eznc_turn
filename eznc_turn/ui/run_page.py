@@ -9,10 +9,10 @@ from PySide6.QtWidgets import (QButtonGroup, QHBoxLayout, QLabel, QLineEdit,
                                QPlainTextEdit, QPushButton, QScroller,
                                QStackedWidget, QVBoxLayout, QWidget)
 
-from grbl_turn import resource
-from grbl_turn.ops.base import Operation
-from grbl_turn.ui.path_view import PathView
-from grbl_turn.units import Units
+from eznc_turn import resource
+from eznc_turn.ops.base import Operation
+from eznc_turn.ui.path_view import PathView
+from eznc_turn.units import Units
 
 PLOT, GCODE, CONSOLE = range(3)
 

@@ -1,4 +1,4 @@
-* grbl_turn — make ezNC2 even easier to use
+* eznc_turn — make ezNC2 even easier to use
 
 ** Screenshots
 
@@ -27,7 +27,7 @@ Install python 3.10+ first, then run corresponding install-* script for your OS.
 - X0 = spindle centerline, Z0 = part face, Z negative into the work.
 - Dialogs take *diameters*; emitted X words are *radii* (stock GRBL).
   If your firmware runs lathe diameter mode, set
-  =x_words_are_diameter=True= in =grbl_turn/machine.py=.
+  =x_words_are_diameter=True= in =eznc_turn/machine.py=.
 - Units (inch/mm) are selected on the main page; programs declare
   G20/G21 accordingly. Switching units converts all saved parameters
   (diameters, lengths, feeds) — except thread pitch, which is entered

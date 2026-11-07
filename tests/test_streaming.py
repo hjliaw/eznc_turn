@@ -1,7 +1,7 @@
 """GrblWorker driven synchronously against the in-process simulator."""
 
-from grbl_turn.comms.grbl import GrblWorker, parse_status
-from grbl_turn.comms.simulator import SimTransport
+from eznc_turn.comms.grbl import GrblWorker, parse_status
+from eznc_turn.comms.simulator import SimTransport
 
 
 def make_worker():

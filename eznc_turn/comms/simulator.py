@@ -1,4 +1,4 @@
-"""In-process fake GRBL controller, used by the tests and `grbl-turn --sim`.
+"""In-process fake GRBL controller, used by the tests and `eznc-turn --sim`.
 
 Responds like a friendly GRBL 1.1: banner on open/reset, 'ok' per line,
 status reports on '?', naive X/Z position tracking from G0/G1/G33 words
@@ -10,7 +10,7 @@ import re
 import time
 from typing import Callable
 
-from grbl_turn.comms.transport import Transport
+from eznc_turn.comms.transport import Transport
 
 BANNER = b"\r\nGrbl 1.1h ['$' for help]\r\n"
 _WORD = re.compile(rb"([XZ])(-?\d+\.?\d*)")

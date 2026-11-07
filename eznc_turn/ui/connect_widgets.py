@@ -7,10 +7,10 @@ from PySide6.QtWidgets import (QHBoxLayout, QLineEdit, QPushButton,
                                QSpinBox, QStackedWidget, QWidget)
 from serial.tools import list_ports
 
-from grbl_turn.comms.simulator import SimTransport
-from grbl_turn.comms.transport import SerialTransport, TelnetTransport, Transport
-from grbl_turn.config import settings
-from grbl_turn.ui.widgets import TouchCombo
+from eznc_turn.comms.simulator import SimTransport
+from eznc_turn.comms.transport import SerialTransport, TelnetTransport, Transport
+from eznc_turn.config import settings
+from eznc_turn.ui.widgets import TouchCombo
 
 BAUD_RATES = ["115200", "230400", "57600", "9600"]
 

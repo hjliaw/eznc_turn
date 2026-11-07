@@ -2,7 +2,7 @@ import math
 
 import pytest
 
-from grbl_turn.ops.passes import flank_offset, thread_infeeds, turning_passes
+from eznc_turn.ops.passes import flank_offset, thread_infeeds, turning_passes
 
 
 def test_turning_passes_shrinking():

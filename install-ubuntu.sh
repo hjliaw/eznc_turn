@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# grbl_turn installer for Ubuntu (22.04+, x86_64 or arm64).
+# eznc_turn installer for Ubuntu (22.04+, x86_64 or arm64).
 #
 # Run as your normal user from the repo checkout:
 #     ./install-ubuntu.sh              install + app-menu launcher; on an
@@ -8,14 +8,14 @@
 #     ./install-ubuntu.sh --autostart  also start the app at login
 #     ./install-ubuntu.sh --fresh      wipe the venv, full reinstall
 #
-# Installs into ~/.local/share/grbl_turn/venv and adds a launcher to
+# Installs into ~/.local/share/eznc_turn/venv and adds a launcher to
 # the applications menu. Log out/in once afterwards so the dialout
 # group (serial port access) takes effect.
 
 set -euo pipefail
 
 REPO_DIR="$(cd "$(dirname "$0")" && pwd)"
-VENV="$HOME/.local/share/grbl_turn/venv"
+VENV="$HOME/.local/share/eznc_turn/venv"
 PYTHON="$VENV/bin/python"
 
 if [ "$(id -u)" -eq 0 ]; then
@@ -41,7 +41,7 @@ fi
 # with a working venv only the app package needs replacing — skip apt,
 # venv creation, and dependency resolution (PySide6 stays as-is)
 UPDATE=0
-if "$PYTHON" -c "import grbl_turn" >/dev/null 2>&1; then
+if "$PYTHON" -c "import eznc_turn" >/dev/null 2>&1; then
     UPDATE=1
 fi
 
@@ -63,7 +63,7 @@ else
     python3 -m venv "$VENV"
     "$PYTHON" -m pip install --upgrade pip wheel
 
-    echo "==> Installing grbl_turn (pulls PySide6 + pyserial)"
+    echo "==> Installing eznc_turn (pulls PySide6 + pyserial)"
     "$PYTHON" -m pip install "$REPO_DIR"
 fi
 
@@ -71,7 +71,7 @@ echo "==> Smoke test (imports only)"
 "$PYTHON" - <<'EOF'
 from PySide6.QtSvgWidgets import QSvgWidget
 import serial
-import grbl_turn.app
+import eznc_turn.app
 print("imports OK")
 EOF
 
@@ -81,14 +81,14 @@ if [ "$UPDATE" -eq 0 ]; then
 fi
 
 echo "==> Application-menu launcher"
-ICON="$("$PYTHON" -c 'from grbl_turn import ICONS; print(ICONS / "grbl_turn-256.png")')"
+ICON="$("$PYTHON" -c 'from eznc_turn import ICONS; print(ICONS / "eznc_turn-256.png")')"
 mkdir -p "$HOME/.local/share/applications"
-cat > "$HOME/.local/share/applications/grbl_turn.desktop" <<EOF
+cat > "$HOME/.local/share/applications/eznc_turn.desktop" <<EOF
 [Desktop Entry]
 Type=Application
-Name=grbl_turn
+Name=eznc_turn
 Comment=Conversational lathe GUI
-Exec=$PYTHON -m grbl_turn
+Exec=$PYTHON -m eznc_turn
 Icon=$ICON
 Categories=Utility;Engineering;
 Terminal=false
@@ -97,8 +97,8 @@ EOF
 if [ "$AUTOSTART" -eq 1 ]; then
     echo "==> Autostart at login"
     mkdir -p "$HOME/.config/autostart"
-    cp "$HOME/.local/share/applications/grbl_turn.desktop" \
-       "$HOME/.config/autostart/grbl_turn.desktop"
+    cp "$HOME/.local/share/applications/eznc_turn.desktop" \
+       "$HOME/.config/autostart/eznc_turn.desktop"
 fi
 
 echo
@@ -106,7 +106,7 @@ if [ "$UPDATE" -eq 1 ]; then
     echo "Done. Update installed — restart the app to run the new code."
     exit 0
 fi
-echo "Done. Launch 'grbl_turn' from the applications menu, or:"
-echo "    $PYTHON -m grbl_turn"
+echo "Done. Launch 'eznc_turn' from the applications menu, or:"
+echo "    $PYTHON -m eznc_turn"
 echo "Log out and back in once for serial-port (dialout) access."
 echo "GRBL appears as /dev/ttyUSB0 or /dev/ttyACM0."

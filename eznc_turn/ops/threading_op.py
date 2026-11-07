@@ -9,11 +9,11 @@ Two emitters, selected by the machine profile:
 Both use the same degressive infeed math from passes.thread_infeeds().
 """
 
-from grbl_turn.gcode import Program
-from grbl_turn.machine import MachineProfile
-from grbl_turn.ops.base import Field, Operation
-from grbl_turn.ops.passes import flank_offset, thread_infeeds
-from grbl_turn.units import Units, fmt
+from eznc_turn.gcode import Program
+from eznc_turn.machine import MachineProfile
+from eznc_turn.ops.base import Field, Operation
+from eznc_turn.ops.passes import flank_offset, thread_infeeds
+from eznc_turn.units import Units, fmt
 
 # thread depth as a fraction of pitch for 60 deg threads (UN/ISO shop values)
 EXT_DEPTH_FACTOR = 0.6134

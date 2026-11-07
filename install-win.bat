@@ -1,5 +1,5 @@
 @echo off
-rem grbl_turn installer for Windows 10.
+rem eznc_turn installer for Windows 10.
 rem
 rem Prereq: Python 3.10+ from python.org (check "Add python.exe to PATH"
 rem during its setup, which also installs the "py" launcher).
@@ -11,15 +11,15 @@ rem                                  the app code only
 rem     install-win.bat /autostart   also start the app at login
 rem     install-win.bat /fresh       wipe the venv, full reinstall
 rem
-rem Installs into %LOCALAPPDATA%\grbl_turn\venv and creates a shortcut
+rem Installs into %LOCALAPPDATA%\eznc_turn\venv and creates a shortcut
 rem that runs the app with no console window (pythonw).
 
 setlocal
 set "REPO=%~dp0"
-set "VENVDIR=%LOCALAPPDATA%\grbl_turn\venv"
+set "VENVDIR=%LOCALAPPDATA%\eznc_turn\venv"
 set "PYEXE=%VENVDIR%\Scripts\python.exe"
 set "PYW=%VENVDIR%\Scripts\pythonw.exe"
-set "ICO=%VENVDIR%\Lib\site-packages\grbl_turn\resources\icons\grbl_turn.ico"
+set "ICO=%VENVDIR%\Lib\site-packages\eznc_turn\resources\icons\eznc_turn.ico"
 
 set "FRESH=0"
 set "AUTOSTART=0"
@@ -40,7 +40,7 @@ rem With a working venv only the app package needs replacing -- skip
 rem venv creation and dependency resolution; PySide6 stays as-is.
 set "UPDATE=0"
 if not exist "%PYEXE%" goto :detected
-"%PYEXE%" -c "import grbl_turn" >nul 2>nul
+"%PYEXE%" -c "import eznc_turn" >nul 2>nul
 if not errorlevel 1 set "UPDATE=1"
 :detected
 
@@ -60,22 +60,22 @@ echo ==^> Creating virtualenv at %VENVDIR%
 py -3 -m venv "%VENVDIR%"
 if errorlevel 1 goto :fail
 
-echo ==^> Installing grbl_turn (pulls PySide6 + pyserial)
+echo ==^> Installing eznc_turn (pulls PySide6 + pyserial)
 "%PYEXE%" -m pip install --upgrade pip wheel
 "%PYEXE%" -m pip install "%REPO%."
 if errorlevel 1 goto :fail
 
 :installed
 echo ==^> Smoke test (imports only)
-"%VENVDIR%\Scripts\python.exe" -c "from PySide6.QtSvgWidgets import QSvgWidget; import serial; import grbl_turn.app; print('imports OK')"
+"%VENVDIR%\Scripts\python.exe" -c "from PySide6.QtSvgWidgets import QSvgWidget; import serial; import eznc_turn.app; print('imports OK')"
 if errorlevel 1 goto :fail
 
 echo ==^> Desktop shortcut
 powershell -NoProfile -ExecutionPolicy Bypass -Command ^
   "$ws = New-Object -ComObject WScript.Shell;" ^
-  "$s = $ws.CreateShortcut([Environment]::GetFolderPath('Desktop') + '\grbl_turn.lnk');" ^
+  "$s = $ws.CreateShortcut([Environment]::GetFolderPath('Desktop') + '\eznc_turn.lnk');" ^
   "$s.TargetPath = '%PYW%';" ^
-  "$s.Arguments = '-m grbl_turn';" ^
+  "$s.Arguments = '-m eznc_turn';" ^
   "$s.WorkingDirectory = [Environment]::GetFolderPath('UserProfile');" ^
   "$s.IconLocation = '%ICO%';" ^
   "$s.Description = 'Conversational lathe GUI';" ^
@@ -86,9 +86,9 @@ if "%AUTOSTART%"=="1" (
     echo ==^> Autostart at login
     powershell -NoProfile -ExecutionPolicy Bypass -Command ^
       "$ws = New-Object -ComObject WScript.Shell;" ^
-      "$s = $ws.CreateShortcut([Environment]::GetFolderPath('Startup') + '\grbl_turn.lnk');" ^
+      "$s = $ws.CreateShortcut([Environment]::GetFolderPath('Startup') + '\eznc_turn.lnk');" ^
       "$s.TargetPath = '%PYW%';" ^
-      "$s.Arguments = '-m grbl_turn';" ^
+      "$s.Arguments = '-m eznc_turn';" ^
       "$s.WorkingDirectory = [Environment]::GetFolderPath('UserProfile');" ^
       "$s.IconLocation = '%ICO%';" ^
       "$s.Save()"
@@ -97,7 +97,7 @@ if "%AUTOSTART%"=="1" (
 
 echo.
 echo Done. Launch from the Desktop shortcut, or:
-echo     "%PYW%" -m grbl_turn
+echo     "%PYW%" -m eznc_turn
 echo GRBL appears as a COM port (check Device Manager if unsure).
 pause
 exit /b 0

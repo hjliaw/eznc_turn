@@ -18,8 +18,8 @@ G18 (XZ plane), G91 (incremental), G94 (units/min feed).
 import re
 from datetime import date
 
-from grbl_turn.machine import MachineProfile
-from grbl_turn.units import Units, fmt
+from eznc_turn.machine import MachineProfile
+from eznc_turn.units import Units, fmt
 
 
 def _comment(text: str) -> str:
@@ -51,7 +51,7 @@ class Program:
     # -- assembly --------------------------------------------------------
     def header(self, title: str, param_desc: list[str]) -> "Program":
         self.lines.append(
-            _comment(f"{title} - grbl_turn {date.today().isoformat()}"))
+            _comment(f"{title} - eznc_turn {date.today().isoformat()}"))
         self.lines += [_comment(d) for d in param_desc]
         if self.absolute_x:
             # machine-readable: the preview reads it back to redraw the

@@ -1,6 +1,6 @@
 """Operation registry, in launcher-grid order (2 rows x 4 columns)."""
 
-from grbl_turn.ops import boring, facing, parting, taper, threading_op, turning
+from eznc_turn.ops import boring, facing, parting, taper, threading_op, turning
 
 REGISTRY = [
     # row 0: external operations

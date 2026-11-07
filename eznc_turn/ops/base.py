@@ -4,8 +4,8 @@ generate() function; the generic OpDialog renders the fields."""
 from dataclasses import dataclass, field
 from typing import Callable
 
-from grbl_turn.machine import MachineProfile
-from grbl_turn.units import Units
+from eznc_turn.machine import MachineProfile
+from eznc_turn.units import Units
 
 # Field kinds drive the widget/validator used by the dialog:
 #   dia    - a diameter, positive float

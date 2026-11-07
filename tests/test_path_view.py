@@ -1,12 +1,12 @@
-"""Toolpath-preview parsing (pure part of grbl_turn.ui.path_view)."""
+"""Toolpath-preview parsing (pure part of eznc_turn.ui.path_view)."""
 
 import pytest
 
-from grbl_turn.machine import MachineProfile
-from grbl_turn.ops import BY_KEY
-from grbl_turn.ui.path_view import (Segment, feed_profile, line_durations,
+from eznc_turn.machine import MachineProfile
+from eznc_turn.ops import BY_KEY
+from eznc_turn.ui.path_view import (Segment, feed_profile, line_durations,
                                     parse_segments, segment_extents)
-from grbl_turn.units import Units
+from eznc_turn.units import Units
 
 MACHINE = MachineProfile()
 
@@ -20,7 +20,7 @@ def defaults(op) -> dict:
 
 
 def test_segments_are_continuous():
-    from grbl_turn.units import Units
+    from eznc_turn.units import Units
     op = BY_KEY["ext_turning"]
     segs = parse_segments(op.generate(defaults(op), MACHINE, Units.INCH))
     assert segs
@@ -29,7 +29,7 @@ def test_segments_are_continuous():
 
 
 def test_turning_feeds_match_passes():
-    from grbl_turn.units import Units
+    from eznc_turn.units import Units
     op = BY_KEY["ext_turning"]
     lines = op.generate(defaults(op), MACHINE, Units.INCH)
     feeds = [s for s in parse_segments(lines) if not s.rapid]
@@ -41,7 +41,7 @@ def test_turning_feeds_match_passes():
 
 
 def test_g76_expands_to_thread_passes():
-    from grbl_turn.units import Units
+    from eznc_turn.units import Units
     op = BY_KEY["ext_thread"]
     lines = op.generate(defaults(op), MACHINE, Units.INCH)
     assert any(l.startswith("G76") for l in lines)
@@ -57,7 +57,7 @@ def test_g76_expands_to_thread_passes():
 
 
 def test_g33_fallback_draws_same_shape():
-    from grbl_turn.units import Units
+    from eznc_turn.units import Units
     op = BY_KEY["ext_thread"]
     machine = MachineProfile(has_g76=False)
     lines = op.generate(defaults(op), machine, Units.INCH)
@@ -73,8 +73,8 @@ def test_relative_program_redrawn_in_absolute_coordinates():
     # absolute X reference any more (every one works off a touched surface,
     # never a known diameter), so this exercises the Program/parser
     # machinery directly rather than through a real op
-    from grbl_turn.gcode import Program
-    from grbl_turn.units import Units
+    from eznc_turn.gcode import Program
+    from eznc_turn.units import Units
     prog = Program(MACHINE, Units.INCH, origin_r=0.375,
                    start_note="touch off on the stock OD at the face")
     prog.header("Test", ["synthetic absolute-origin program"])
@@ -89,8 +89,8 @@ def test_relative_program_redrawn_in_absolute_coordinates():
 
 
 def test_g76_extents_include_thread_depth():
-    from grbl_turn.units import Units
-    from grbl_turn.gcode import extents
+    from eznc_turn.units import Units
+    from eznc_turn.gcode import extents
     op = BY_KEY["ext_thread"]
     lines = op.generate(defaults(op), MACHINE, Units.INCH)
     ext = segment_extents(parse_segments(lines))

@@ -1,19 +1,19 @@
-grbl_turn — packaging / deployment notes
+eznc_turn — packaging / deployment notes
 =========================================
 
 App icons
 ---------
-grbl_turn/resources/icons/ holds icons generated from
+eznc_turn/resources/icons/ holds icons generated from
 resources/images/logo.svg by attic/make_icons.py (needs inkscape +
 Pillow; the .icns step needs macOS):
-- grbl_turn.ico        Windows: shortcut icon (set by install-win.bat),
+- eznc_turn.ico        Windows: shortcut icon (set by install-win.bat),
                        PyInstaller --icon, installer branding
-- grbl_turn.icns       macOS: for a future .app bundle (py2app/briefcase
+- eznc_turn.icns       macOS: for a future .app bundle (py2app/briefcase
                        or PyInstaller --icon)
-- grbl_turn-{128,256,512}.png
+- eznc_turn-{128,256,512}.png
                        Linux .desktop Icon= (install-ubuntu.sh) and the
                        Qt window/taskbar icon on every platform
-The app itself sets the window icon in app.py from grbl_turn-256.png.
+The app itself sets the window icon in app.py from eznc_turn-256.png.
 Edit logo.svg, rerun the script, commit the regenerated outputs.
 
 
@@ -23,13 +23,13 @@ Must build ON Windows — PyInstaller does not cross-compile.
 
     py -m venv venv
     venv\Scripts\pip install . pyinstaller
-    venv\Scripts\pyinstaller --name grbl_turn --windowed ^
-        --icon grbl_turn\resources\icons\grbl_turn.ico ^
-        --add-data "grbl_turn\resources\images;grbl_turn\resources\images" ^
-        --add-data "grbl_turn\resources\icons;grbl_turn\resources\icons" ^
-        grbl_turn\__main__.py
+    venv\Scripts\pyinstaller --name eznc_turn --windowed ^
+        --icon eznc_turn\resources\icons\eznc_turn.ico ^
+        --add-data "eznc_turn\resources\images;eznc_turn\resources\images" ^
+        --add-data "eznc_turn\resources\icons;eznc_turn\resources\icons" ^
+        eznc_turn\__main__.py
 
-Result: dist\grbl_turn\grbl_turn.exe (ship the whole folder, or zip it).
+Result: dist\eznc_turn\eznc_turn.exe (ship the whole folder, or zip it).
 
 Notes:
 - resource() resolves paths relative to the module's __file__; the
@@ -66,9 +66,9 @@ for aarch64 only — no 32-bit armhf wheels. Pi 4 or Pi 5 recommended
 (Pi 3 works but sluggish).
 
     sudo apt install python3-venv
-    python3 -m venv ~/grbl_turn_env
-    ~/grbl_turn_env/bin/pip install /path/to/grbl_turn
-    ~/grbl_turn_env/bin/python -m grbl_turn
+    python3 -m venv ~/eznc_turn_env
+    ~/eznc_turn_env/bin/pip install /path/to/eznc_turn
+    ~/eznc_turn_env/bin/python -m eznc_turn
 
 If pip's PySide6 install is slow/fails on an older image, fall back to
 distro packages: Raspberry Pi OS Bookworm has python3-pyside6.* (older
@@ -80,7 +80,7 @@ Pi practicalities:
   dialout group or opening the port fails with a permissions error:
       sudo usermod -aG dialout $USER   (then log out/in)
 - Kiosk startup: .desktop file in ~/.config/autostart/ pointing at the
-  venv's "python -m grbl_turn" (or a systemd user service). app.py
+  venv's "python -m eznc_turn" (or a systemd user service). app.py
   currently sizes to min(900, screen width) -> 800x480 layout on the
   7" panel.
 - PyInstaller works on the Pi too, but a venv + autostart entry is

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# grbl_turn installer for Raspberry Pi OS Lite (Bookworm, 64-bit) —
+# eznc_turn installer for Raspberry Pi OS Lite (Bookworm, 64-bit) —
 # no desktop. Boots into the app alone via the cage Wayland kiosk
 # compositor: console autologin on tty1 execs cage running the app.
 #
@@ -17,9 +17,9 @@
 set -euo pipefail
 
 REPO_DIR="$(cd "$(dirname "$0")" && pwd)"
-VENV="$HOME/.local/share/grbl_turn/venv"
+VENV="$HOME/.local/share/eznc_turn/venv"
 PYTHON="$VENV/bin/python"
-MARKER="# grbl_turn kiosk"
+MARKER="# eznc_turn kiosk"
 
 if [ "$(id -u)" -eq 0 ]; then
     echo "Run as the normal user, not root." >&2
@@ -41,7 +41,7 @@ fi
 # venv creation, and dependency resolution (PySide6 stays as-is).
 # System-level setup (groups, autologin) persists from the first run.
 UPDATE=0
-if "$PYTHON" -c "import grbl_turn" >/dev/null 2>&1; then
+if "$PYTHON" -c "import eznc_turn" >/dev/null 2>&1; then
     UPDATE=1
 fi
 
@@ -66,7 +66,7 @@ else
     python3 -m venv "$VENV"
     "$PYTHON" -m pip install --upgrade pip wheel
 
-    echo "==> Installing grbl_turn (pulls PySide6 + pyserial)"
+    echo "==> Installing eznc_turn (pulls PySide6 + pyserial)"
     if ! "$PYTHON" -m pip install "$REPO_DIR"; then
         # No usable PySide6 wheel: fall back to the distro's PySide6
         # (Qt 6.4 on Bookworm — sufficient) via system site packages.
@@ -86,7 +86,7 @@ echo "==> Smoke test (imports only)"
 "$PYTHON" - <<'EOF'
 from PySide6.QtSvgWidgets import QSvgWidget
 import serial
-import grbl_turn.app
+import eznc_turn.app
 print("imports OK")
 EOF
 
@@ -105,9 +105,9 @@ $MARKER
 if [ "\$(tty)" = "/dev/tty1" ] && [ -z "\${WAYLAND_DISPLAY:-}" ]; then
     export QT_QPA_PLATFORM=wayland
     # no exec: quitting the app lands in this shell; 'exit' relaunches
-    cage -- "$PYTHON" -m grbl_turn --fullscreen >"\$HOME/cage.log" 2>&1
+    cage -- "$PYTHON" -m eznc_turn --fullscreen >"\$HOME/cage.log" 2>&1
     clear
-    echo "grbl_turn quit — 'exit' relaunches it, 'sudo poweroff' shuts down"
+    echo "eznc_turn quit — 'exit' relaunches it, 'sudo poweroff' shuts down"
 fi
 EOF
 fi
@@ -127,4 +127,4 @@ echo
 echo "Done. Reboot to land in the app:  sudo reboot"
 echo "(dialout group membership also needs that reboot/relogin.)"
 echo "To run it by hand from the console:"
-echo "    QT_QPA_PLATFORM=wayland cage -- $PYTHON -m grbl_turn --fullscreen"
+echo "    QT_QPA_PLATFORM=wayland cage -- $PYTHON -m eznc_turn --fullscreen"

@@ -13,16 +13,16 @@ from PySide6.QtWidgets import (QFrame, QGridLayout, QHBoxLayout, QLabel,
                                QSizePolicy, QStackedWidget, QToolButton,
                                QVBoxLayout, QWidget)
 
-from grbl_turn import resource
-from grbl_turn.comms.grbl import GrblController
-from grbl_turn.config import convert_saved_params, settings
-from grbl_turn.machine import MachineProfile
-from grbl_turn.ops import REGISTRY
-from grbl_turn.ui.connect_widgets import ConnectBar
-from grbl_turn.ui.widgets import TouchCombo
-from grbl_turn.ui.op_page import OpPage
-from grbl_turn.ui.run_page import RunPage
-from grbl_turn.units import Units, convert
+from eznc_turn import resource
+from eznc_turn.comms.grbl import GrblController
+from eznc_turn.config import convert_saved_params, settings
+from eznc_turn.machine import MachineProfile
+from eznc_turn.ops import REGISTRY
+from eznc_turn.ui.connect_widgets import ConnectBar
+from eznc_turn.ui.widgets import TouchCombo
+from eznc_turn.ui.op_page import OpPage
+from eznc_turn.ui.run_page import RunPage
+from eznc_turn.units import Units, convert
 
 GRID_COLS = 4
 
@@ -52,7 +52,7 @@ class OpButton(QToolButton):
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("grbl_turn")
+        self.setWindowTitle("eznc_turn")
         self.controller = GrblController(self)
         self.machine = MachineProfile()
         self.units = Units(str(settings().value("units", Units.INCH.value)))
